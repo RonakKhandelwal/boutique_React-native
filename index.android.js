@@ -15,7 +15,7 @@ import {
 
 // Different Screens Imports
 import Login_page from './Views/login_page.js';
-import Playground from './Views/dashboard_view.js';
+import Playground from './Views/add_customer_view.js';
 
 // Initial Scene
 var initialScene = "login_page";
