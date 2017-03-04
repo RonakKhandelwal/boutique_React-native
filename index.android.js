@@ -25,7 +25,7 @@ export default class abhishekRnApp extends Component {
     return (
       <Navigator
         initialRoute = {{id: initialScene}}
-        renderScene = {this.renderScene.bind(this)}
+        renderScene = {this.renderPlaygroundScene.bind(this)}
         />
     );
   }
