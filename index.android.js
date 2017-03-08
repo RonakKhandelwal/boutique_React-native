@@ -10,36 +10,75 @@ import {
   StyleSheet,
   Text,
   View,
-  Navigator
+  Navigator,
+  BackAndroid
 } from 'react-native';
 
 // Different Screens Imports
 import Login_page from './Views/login_page.js';
-import Playground from './Views/add_customer_view.js';
+import Dashboard from './Views/dashboard_view.js'
+import Send_message from './Views/send_message.js';
+import Add_customer from './Views/add_customer_view.js';
+import List_customer from './Views/list_customers.js';
 
 // Initial Scene
 var initialScene = "login_page";
 
+
 export default class abhishekRnApp extends Component {
+
+  componentDidMount(){
+    BackAndroid.addEventListener("hardwareBackPress", () => {
+        this._navigator.pop();
+        return true;
+      })
+  }
+
   render() {
     return (
       <Navigator
-        initialRoute = {{id: initialScene}}
-        renderScene = {this.renderPlaygroundScene.bind(this)}
+        ref={component => this._navigator = component}
+        initialRoute = {{routeid: initialScene}}
+        renderScene = {this.renderScene.bind(this)}
         />
     );
   }
 
-  renderPlaygroundScene(route, navigator){
+  renderPlayground(route, navigator){
     return(
-      <Playground navigator = {navigator} />
+      <Login_page navigator = {navigator} />
     );
   }
 
   renderScene(route, navigator){
-    var routeId = route.id;
-    console.log(Login_page);
+    var routeId = route.routeid;
+    console.log(routeId);
     if(routeId == "login_page"){
+      return(
+        <Login_page navigator = {navigator} />
+      );
+    }
+    else if(routeId == "dashboard"){
+      return(
+        <Dashboard navigator = {navigator} />
+      );
+    }
+    else if(routeId == "sendMess"){
+      return(
+        <Send_message navigator = {navigator} />
+      );
+    }
+    else if(routeId == "addCus"){
+      return(
+        <Add_customer navigator = {navigator} />
+      );
+    }
+    else if(routeId == "list"){
+      return(
+        <List_customer navigator = {navigator} />
+      )
+    }
+    else{
       return(
         <Login_page navigator = {navigator} />
       );

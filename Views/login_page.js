@@ -5,7 +5,8 @@ import {
   Text,
   View,
   TextInput,
-  Button
+  Button,
+  Navigator
 } from 'react-native';
 
 export default class Login_page extends Component{
@@ -17,10 +18,21 @@ export default class Login_page extends Component{
     };
   }
   onSubmit(){
-    console.log("Button Pressed");
+    this.props.navigator.push({
+      routeid: "dashboard"
+    });
+  }
+  render() {
+    return (
+      <Navigator
+        initialRoute = {{id: "login_page"}}
+        renderScene = {this.renderScene.bind(this)}
+        />
+    );
   }
 
-  render(){
+
+  renderScene(){
     return(
       <View>
         <Text>Username</Text>
