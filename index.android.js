@@ -52,7 +52,6 @@ export default class abhishekRnApp extends Component {
 
   renderScene(route, navigator){
     var routeId = route.routeid;
-    console.log(routeId);
     if(routeId == "login_page"){
       return(
         <Login_page navigator = {navigator} />
