@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Navigator
 } from 'react-native';
 
 import realm from './realm_database';
@@ -20,15 +23,38 @@ export default class list_view extends Component{
     var head  = {name: "Name", phone: "Phone"};
     this.state = {
       dataSource: dataSource.cloneWithRows(customers),
+      search: ''
     };
+  }
+
+  onSubmitText(text){
+    let res = realm.objects('Customers').filtered('name CONTAINS "'+ this.state.search + '"OR phone CONTAINS "' + this.state.search + '"');
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(res)
+    });
   }
 
   render() {
     return (
+      <Navigator
+        initialRoute = {{id: "login_page"}}
+        renderScene = {this.renderScene.bind(this)}
+        />
+    );
+  }
+
+  renderScene() {
+    return (
       <View>
+      <TextInput
+      placeholder = {"Search"}
+      onChangeText={(text) => this.setState({search: text})}
+      value={this.state.search}
+      onSubmitEditing = {this.onSubmitText.bind(this)}
+      />
       <ListView dataSource={this.state.dataSource}
       renderSectionHeader={this.renderSectionHeader}
-      renderRow={this.renderRow} />
+      renderRow={this.renderRow.bind(this)} />
       </View>
     );
   }
@@ -42,12 +68,21 @@ export default class list_view extends Component{
     );
   }
 
+  rowPress(data){
+    if(data != null){
+      this.props.navigator.push({
+        routeid: 'addCus',
+        item: data
+      })
+    }
+  }
+
   renderRow(item, sectionIndex, rowIndex) {
     return(
-      <View style = {styles.row}>
+      <TouchableOpacity style = {styles.row} onPress = {this.rowPress.bind(this,item)}>
       <View style = {styles.name}><Text>{item.name}</Text></View>
       <View style = {styles.phone}><Text>{item.phone}</Text></View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }
@@ -61,9 +96,9 @@ var styles = {
   },
   row: {
     margin: 10,
-    borderBottomWidth: .5,
+    borderWidth: .5,
     flexDirection: 'row',
-
+    marginTop: 20
   },
   name: {
     flex: .5,

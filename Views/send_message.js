@@ -25,36 +25,36 @@ export default class Send_message extends Component{
     }
 
     this.state = {
-      message: '',
+      message: 'Test Text',
       recipients: arr
     };
   }
 
-  requestSMSPermission() {
-    try {
-      const granted = PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.SEND_SMS,
-        {
-          'title': 'Cool Photo App Camera Permission',
-          'message': 'Cool Photo App needs access to your camera ' +
-                     'so you can take awesome pictures.'
-        }
-      )
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log("You can use the camera")
-      } else {
-        console.log("Camera permission denied")
-      }
-    } catch (err) {
-      console.warn(err)
-    }
-  }
+  // requestSMSPermission() {
+  //   try {
+  //     const granted = PermissionsAndroid.request(
+  //       PermissionsAndroid.PERMISSIONS.SEND_SMS,
+  //       {
+  //         'title': 'Cool Photo App Camera Permission',
+  //         'message': 'Cool Photo App needs access to your camera ' +
+  //                    'so you can take awesome pictures.'
+  //       }
+  //     )
+  //     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+  //       console.log("You can use the camera")
+  //     } else {
+  //       console.log("Camera permission denied")
+  //     }
+  //   } catch (err) {
+  //     console.warn(err)
+  //   }
+  // }
 
   onSubmit(){
     console.log(this.state.recipients);
     SendSMS.send({
       body: this.state.message,
-      recipients: this.state.recipients,
+      recipients: ['7795124411', '8861674059'],
       successTypes: ['sent', 'queued']
     }, (completed, cancelled, error) => {
       console.log('SMS Callback: completed: ' + completed + ' cancelled: ' + cancelled + 'error: ' + error);

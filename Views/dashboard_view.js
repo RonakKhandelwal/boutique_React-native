@@ -12,6 +12,10 @@ import {
   Dimensions
 } from 'react-native';
 
+
+import SendSMS from 'react-native-sms';
+import realm from './realm_database';
+
 var {Winheight, Winwidth} = Dimensions.get('window');
 
 export default class Dashboard_view extends Component{
@@ -33,8 +37,20 @@ export default class Dashboard_view extends Component{
   }
 
   send_texts(){
-    this.props.navigator.push({
-      routeid: 'sendMess'
+    let custList = realm.objects('Customers');
+
+    var arr = [];
+    var j = 0;
+    for(var i in custList){
+      arr[j++] = String(custList[i].phone);
+    }
+console.log(arr);
+    SendSMS.send({
+      body: '',
+      recipients: arr,
+      successTypes: ['sent', 'queued']
+    }, (completed, cancelled, error) => {
+      console.log('SMS Callback: completed: ' + completed + ' cancelled: ' + cancelled + 'error: ' + error);
     });
   }
 
@@ -51,7 +67,6 @@ export default class Dashboard_view extends Component{
     return(
       <View style = {styles.parent}>
       <TouchableOpacity onPress = {this.add_customer.bind(this)}><Text style = {styles.item} >Add Customer</Text></TouchableOpacity>
-      <TouchableOpacity><Text style = {styles.item} >Edit Customer</Text></TouchableOpacity>
       <TouchableOpacity onPress = {this.list_customer.bind(this)}><Text style = {styles.item} >List Customer</Text></TouchableOpacity>
       <TouchableOpacity onPress = {this.send_texts.bind(this)}><Text style = {styles.item} >Send Texts</Text></TouchableOpacity>
       </View>
@@ -66,11 +81,14 @@ var styles = StyleSheet.create({
     flexWrap: 'wrap'
   },
   item: {
-    backgroundColor: '#CCC',
+    backgroundColor: '#8a2be2',
     justifyContent: 'center',
     textAlign: 'center',
-    margin: 5,
-    width: 190,
-    height: 300
+    color: '#ff0000',
+    fontSize: 40,
+    margin: 20,
+    width: 380,
+    height: 180,
+    paddingTop: 50
   }
 });

@@ -69,7 +69,7 @@ export default class abhishekRnApp extends Component {
     }
     else if(routeId == "addCus"){
       return(
-        <Add_customer navigator = {navigator} />
+        <Add_customer navigator = {navigator} item = {route.item} />
       );
     }
     else if(routeId == "list"){

@@ -18,6 +18,7 @@ export default class Login_page extends Component{
     };
   }
   onSubmit(){
+    if(this.state.username == "admin" && this.state.password == "admin")
     this.props.navigator.push({
       routeid: "dashboard"
     });
@@ -37,17 +38,17 @@ export default class Login_page extends Component{
       <View>
         <Text>Username</Text>
         <TextInput
-          onChangeText={(text) => this.setState({username})}
+          onChangeText={(text) => this.setState({username: text})}
           value={this.state.username}
         />
         <Text>Password</Text>
         <TextInput
-          onChangeText={(text) => this.setState({password})}
+          onChangeText={(text) => this.setState({password: text})}
           value={this.state.password}
         />
         <Button
           onPress={this.onSubmit.bind(this)}
-          title="Submit"
+          title="Login"
           color="#841584"
         />
       </View>
